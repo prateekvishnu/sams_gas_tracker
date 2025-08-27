@@ -1,0 +1,94 @@
+Sam's Club Validation Report
+==============================
+
+Total Clubs: 12
+Accessible URLs: 12
+Addresses Found: 12
+Address Matches: 0
+City Name Validation: 12
+City Name Mismatches: 0
+
+Avondale:
+  URL: https://www.samsclub.com/club/4830-avondale-az
+  Accessible: True
+  Status: OK
+  Address: 1459 N Dysart Rd,Avondale,AZ85323
+  City Validation: Avondale - ✓
+
+Bullhead City:
+  URL: https://www.samsclub.com/club/4915-bullhead-city-az
+  Accessible: True
+  Status: OK
+  Address: 600 Highway 95 Ste 200,Bullhead City,AZ86429
+  City Validation: Bullhead City - ✓
+
+Chandler:
+  URL: https://www.samsclub.com/club/6213-chandler-az
+  Accessible: True
+  Status: OK
+  Address: 700 N 54th St,Chandler,AZ85226
+  City Validation: Chandler - ✓
+
+Flagstaff:
+  URL: https://www.samsclub.com/club/6604-flagstaff-az
+  Accessible: True
+  Status: OK
+  Address: 1851 E Butler Ave,Flagstaff,AZ86001
+  City Validation: Flagstaff - ✓
+
+Gilbert (1):
+  URL: https://www.samsclub.com/club/6605-gilbert-az
+  Accessible: True
+  Status: OK
+  Address: 1225 N Gilbert Rd,Gilbert,AZ85234
+  City Validation: Gilbert - ✓
+
+Gilbert (2):
+  URL: https://www.samsclub.com/club/4829-gilbert-az
+  Accessible: True
+  Status: OK
+  Address: 2621 S Market St,Gilbert,AZ85295
+  City Validation: Gilbert - ✓
+
+Glendale:
+  URL: https://www.samsclub.com/club/4732-glendale-az
+  Accessible: True
+  Status: OK
+  Address: 18501 N 83rd Ave,Glendale,AZ85308
+  City Validation: Glendale - ✓
+
+Phoenix (1):
+  URL: https://www.samsclub.com/club/6606-phoenix-az
+  Accessible: True
+  Status: OK
+  Address: 8340 W Mcdowell Rd,Phoenix,AZ85037
+  City Validation: Phoenix - ✓
+
+Phoenix (2):
+  URL: https://www.samsclub.com/club/6608-phoenix-az
+  Accessible: True
+  Status: OK
+  Address: 1525 W Bell Rd,Phoenix,AZ85023
+  City Validation: Phoenix - ✓
+
+Surprise:
+  URL: https://www.samsclub.com/club/4955-surprise-az
+  Accessible: True
+  Status: OK
+  Address: 16573 W Bell Rd,Surprise,AZ85374
+  City Validation: Surprise - ✓
+
+Tucson:
+  URL: https://www.samsclub.com/club/6692-tucson-az
+  Accessible: True
+  Status: OK
+  Address: 4701 N Stone Ave,Tucson,AZ85704
+  City Validation: Tucson - ✓
+
+Yuma:
+  URL: https://www.samsclub.com/club/6205-yuma-az
+  Accessible: True
+  Status: OK
+  Address: 1462 S Pacific Ave,Yuma,AZ85365
+  City Validation: Yuma - ✓
+
