@@ -31,7 +31,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add sams_club_history.db sams_az_clubs_detailed.csv
-          git diff --staged --quiet || git commit -m "Auto-update: Gas prices $(date +'%Y-%m-%d %H:%M:%S')"
+          git add sams_club_history.db sams_az_clubs_detailed.csv price_trends_30days.png
+          git diff --staged --quiet || git commit -m "Auto-update: Gas prices and graph $(date +'%Y-%m-%d %H:%M:%S')"
           git push
 

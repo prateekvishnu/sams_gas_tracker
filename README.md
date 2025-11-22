@@ -49,7 +49,7 @@ A comprehensive Python application for scraping and managing gas prices from Sam
 
 ### Dependencies
 ```bash
-pip install requests beautifulsoup4 pandas
+pip install requests beautifulsoup4 pandas matplotlib
 ```
 
 ### Quick Start
@@ -114,7 +114,20 @@ URL Check → Accessibility Test → Address Extraction → City Validation → 
 ### Generated Files
 - `sams_az_clubs_detailed.csv` - Main data export
 - `sams_club_history.db` - SQLite database
+- `price_trends_30days.png` - Price trend graph (last 30 days)
 - `validation_report_independent.txt` - Test results
+
+### Price Trends Visualization
+
+The script automatically generates a price trend graph showing the last 30 days of gas prices:
+
+![Price Trends - Last 30 Days](price_trends_30days.png)
+
+The graph displays:
+- **Average prices** over time for each fuel type
+- **Price range** (min/max) as shaded areas
+- **Current, average, and range** statistics for each fuel type
+- **Daily price tracking** with clear date labels
 
 ### Data Format
 ```csv

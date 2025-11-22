@@ -18,7 +18,7 @@ Features:
 - EFFICIENCY: Skips scraping if all locations were scraped today
 
 Usage:
-    python sams_gas_prices_2.py
+    python sams_gas_prices.py
 
 Output:
     - Console display of all club information
@@ -41,6 +41,10 @@ import json
 import os
 from datetime import datetime, date
 import sqlite3
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend for server environments
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 BASE_URL = "https://www.samsclub.com"
 
@@ -373,6 +377,96 @@ def get_price_trends(club_name: str = None, days: int = 7) -> Dict:
                 }
     
     return trends
+
+def generate_price_graph(days: int = 30, output_file: str = "price_trends_30days.png") -> str:
+    """Generate a graph showing price trends over the last N days"""
+    df = get_price_history(days=days)
+    
+    if df.empty:
+        print(f"No data available for the last {days} days. Cannot generate graph.")
+        return ""
+    
+    # Convert price strings to numeric values
+    df['price_numeric'] = df['price'].apply(
+        lambda x: float(str(x).replace('$', '').replace(',', '')) 
+        if str(x).replace('$', '').replace(',', '').replace('.', '').isdigit() 
+        else None
+    )
+    
+    # Remove rows with invalid prices
+    df = df.dropna(subset=['price_numeric'])
+    
+    if df.empty:
+        print("No valid price data found. Cannot generate graph.")
+        return ""
+    
+    # Convert scraped_date to datetime
+    df['date'] = pd.to_datetime(df['scraped_date'])
+    
+    # Get unique fuel types
+    fuel_types = df['fuel_type'].unique()
+    
+    if len(fuel_types) == 0:
+        print("No fuel types found. Cannot generate graph.")
+        return ""
+    
+    # Create figure with subplots
+    fig, axes = plt.subplots(len(fuel_types), 1, figsize=(14, 4 * len(fuel_types)))
+    if len(fuel_types) == 1:
+        axes = [axes]
+    
+    fig.suptitle(f'Sam\'s Club Gas Prices - Last {days} Days', fontsize=16, fontweight='bold')
+    
+    # Plot each fuel type
+    for idx, fuel_type in enumerate(fuel_types):
+        ax = axes[idx]
+        fuel_data = df[df['fuel_type'] == fuel_type].copy()
+        
+        # Group by date and get average price per day
+        daily_avg = fuel_data.groupby('date')['price_numeric'].mean().reset_index()
+        daily_min = fuel_data.groupby('date')['price_numeric'].min().reset_index()
+        daily_max = fuel_data.groupby('date')['price_numeric'].max().reset_index()
+        
+        # Plot average line
+        ax.plot(daily_avg['date'], daily_avg['price_numeric'], 
+                marker='o', linewidth=2, markersize=6, label='Average', color='#2E86AB')
+        
+        # Plot min/max range as shaded area
+        ax.fill_between(daily_avg['date'], 
+                        daily_min['price_numeric'], 
+                        daily_max['price_numeric'],
+                        alpha=0.2, color='#2E86AB', label='Price Range')
+        
+        # Formatting
+        ax.set_title(f'{fuel_type} - Price Trend', fontsize=12, fontweight='bold', pad=10)
+        ax.set_xlabel('Date', fontsize=10)
+        ax.set_ylabel('Price ($)', fontsize=10)
+        ax.grid(True, alpha=0.3, linestyle='--')
+        ax.legend(loc='best')
+        
+        # Format x-axis dates
+        ax.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+        ax.xaxis.set_major_locator(mdates.DayLocator(interval=max(1, days//10)))
+        plt.setp(ax.xaxis.get_majorticklabels(), rotation=45, ha='right')
+        
+        # Add statistics text
+        if len(daily_avg) > 0:
+            current_price = daily_avg['price_numeric'].iloc[-1]
+            min_price = daily_min['price_numeric'].min()
+            max_price = daily_max['price_numeric'].max()
+            avg_price = daily_avg['price_numeric'].mean()
+            
+            stats_text = f'Current: ${current_price:.3f} | Avg: ${avg_price:.3f} | Range: ${min_price:.3f} - ${max_price:.3f}'
+            ax.text(0.02, 0.98, stats_text, transform=ax.transAxes,
+                   fontsize=9, verticalalignment='top',
+                   bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+    
+    plt.tight_layout()
+    plt.savefig(output_file, dpi=150, bbox_inches='tight')
+    plt.close()
+    
+    print(f"Price graph saved to {output_file}")
+    return output_file
 
 def get_headers() -> Dict[str, str]:
     """Get minimal headers - sometimes simpler is better"""
@@ -787,6 +881,12 @@ def main():
         print("TODAY'S DATA (FROM DATABASE)")
         print("=" * 60)
         show_todays_data()
+        
+        # Generate price graph
+        print("\n" + "=" * 60)
+        print("GENERATING PRICE GRAPH")
+        print("=" * 60)
+        generate_price_graph(days=30, output_file="price_trends_30days.png")
         return
 
     # Scrape all clubs using smart approach
@@ -856,6 +956,12 @@ def main():
     print(f"Total clubs processed: {len(clubs_data)}")
     print(f"Clubs with fuel centers: {len([c for c in clubs_data if c['fuel_url'] != 'No Fuel Center'])}")
     print(f"Total price entries: {len(expanded_data)}")
+    
+    # Generate price graph
+    print("\n" + "=" * 60)
+    print("GENERATING PRICE GRAPH")
+    print("=" * 60)
+    generate_price_graph(days=30, output_file="price_trends_30days.png")
     
     # Interactive mode for adding new clubs and data
     print("\n" + "=" * 60)
