@@ -62,7 +62,7 @@ pip install requests beautifulsoup4 pandas matplotlib
 ### Basic Scraping
 ```bash
 # Run the main scraper
-python sams_gas_prices_2.py
+python sams_gas_prices.py
 ```
 
 ### Testing Links and Addresses
