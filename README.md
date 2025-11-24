@@ -55,7 +55,7 @@ pip install requests beautifulsoup4 pandas matplotlib
 ### Quick Start
 1. Clone or download the project files
 2. Install dependencies: `pip install -r requirements.txt`
-3. Run the main scraper: `python sams_gas_prices_2.py`
+3. Run the main scraper: `python sams_gas_prices.py`
 
 ## 📖 Usage
 
